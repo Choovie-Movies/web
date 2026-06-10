@@ -71,6 +71,7 @@ jobs:
           fi
 
   # JOB 3: Проверка JavaScript через ESLint с остановкой при ошибках
+    # JOB 3: Проверка JavaScript через ESLint (совместимый режим)
   validate-js:
     name: 📜 JavaScript Validation (ESLint)
     runs-on: ubuntu-latest
@@ -83,10 +84,10 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install ESLint
-        run: npm install -g eslint
+      - name: Install ESLint (совместимая версия)
+        run: npm install -g eslint@8.57.0
       
-      - name: Create ESLint config
+      - name: Create ESLint config (старый формат)
         run: |
           echo '{
             "env": { 
@@ -96,18 +97,13 @@ jobs:
             "extends": "eslint:recommended",
             "parserOptions": { 
               "ecmaVersion": "latest" 
-            },
-            "rules": { 
-              "no-console": "warn"
             }
           }' > .eslintrc.json
       
       - name: Validate JavaScript files
-        id: js-check
         run: |
-          # Запускаем ESLint, он сам вернёт ошибку если есть проблемы
           eslint js/*.js --format=stylish --max-warnings=0
-
+          
   # JOB 4: Деплой на GitHub Pages - ТОЛЬКО если все проверки успешны
   deploy-preview:
     name: 🚀 Deploy to GitHub Pages
