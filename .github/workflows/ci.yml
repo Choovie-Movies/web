@@ -123,6 +123,8 @@ jobs:
           cp index.html deploy_preview/
           cp style.css deploy_preview/
           cp -r js deploy_preview/
+          cp -r fonts deploy_preview/
+          cp -r img deploy_preview/
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
