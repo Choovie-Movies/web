@@ -1,74 +1,40 @@
 /* global Swiper */
 
+const titles = [
+  'Индивидуальный подбор фильма',
+  'Подбор по настроению',
+  'Рекомендации по оценкам',
+  'Каталог новинок',
+  'Фильмы по жанрам',
+  'Случайный фильм',
+  'Персональная коллекция'
+]
+
 const titleElement = document.querySelector('.features__title')
 
 new Swiper('.features-slider', {
+  loop: true,
   centeredSlides: true,
   slidesPerView: 1.3,
-  loop: true,
-  loopAdditionalSlides: 3,
   speed: 500,
-  grabCursor: true,
-  spaceBetween: 5,
 
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false
-  },
-
-  breakpoints: {
-    768: {
-      slidesPerView: 2
-    }
-  },
+  autoplay: { delay: 1000, disableOnInteraction: true },
 
   on: {
     init(swiper) {
-      updateContent(swiper)
+      updateTitle(swiper.realIndex)
     },
 
-    slideChangeTransitionEnd(swiper) {
-      updateContent(swiper)
+    slideChange(swiper) {
+      updateTitle(swiper.realIndex)
     }
   }
 })
 
-function updateContent(swiper) {
-  const activeSlide = swiper.slides[swiper.activeIndex]
-
-  if (!activeSlide) return
-
-  const title = activeSlide.dataset.title || ''
-
-  setTitle(title)
-
-  stopAllVideos()
-
-  const video = activeSlide.querySelector('video')
-
-  if (video) {
-    video.currentTime = 0
-
-    video.play().catch(() => {})
-  }
-}
-
-function stopAllVideos() {
-  document.querySelectorAll('.slide-card video').forEach(video => {
-    video.pause()
-    video.currentTime = 0
-  })
-}
-
-function setTitle(text) {
-  if (titleElement.dataset.current === text) return
-
-  titleElement.dataset.current = text
-
-  titleElement.classList.add('is-hidden')
-
-  setTimeout(() => {
-    titleElement.textContent = text
-    titleElement.classList.remove('is-hidden')
-  }, 150)
+function updateTitle(index) {
+  titleElement.style.opacity = 0;
+    setTimeout(() => {
+        titleElement.textContent = titles[index]
+        titleElement.style.opacity = 1;
+    }, 150)
 }
