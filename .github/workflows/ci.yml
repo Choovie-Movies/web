@@ -157,9 +157,9 @@ jobs:
           message: |
             ## 🚀 Pull Request Preview & Validation Report
             
-            ### 📊 Статус проверок
+            ### 📊 Checks status
             
-            | Проверка | Статус |
+            | Test | Status |
             |----------|--------|
             | 🔍 **HTML (W3C Validator)** | ${{ needs.validate-html.result == 'success' && '✅' || '❌' }} |
             | 🎨 **CSS (W3C Validator)** | ${{ needs.validate-css.result == 'success' && '✅' || '❌' }} |
@@ -170,12 +170,10 @@ jobs:
             
             ---
             
-            ### 📝 Что означают статусы:
-            - ✅ Успешно — проверка пройдена, ошибок нет
-            - ❌ Ошибка — есть проблемы, которые нужно исправить
-            - ⏭️ Пропущено — деплой не запускался из-за ошибок валидации
-            
-            **💡 Совет:** Исправь все ошибки, чтобы деплой автоматически запустился и появилась ссылка на превью.
+            ### 📝 What mean statuses:
+            - ✅ Success
+            - ❌ Error
+            - ⏭️ Skiped
             
             ---
-            *Этот комментарий автоматически обновляется при каждом коммите в PR*
+            *This comment is updated automatically*
