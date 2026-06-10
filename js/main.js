@@ -29,7 +29,7 @@ new Swiper('.features-slider', {
       updateActiveSlideContent(swiper)
     },
 
-    slideChangeTransitionStart(swiper) {
+    slideChangeTransitionStart() {
       isTransitioning = true
     },
 
