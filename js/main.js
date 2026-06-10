@@ -1,14 +1,12 @@
-// main.js
 /* global Swiper */
 
 const titleElement = document.querySelector('.features__title')
-let currentTitle = ''
-let isTransitioning = false
 
-new Swiper('.features-slider', {
+const swiper = new Swiper('.features-slider', {
   centeredSlides: true,
   slidesPerView: 1.3,
   loop: true,
+  loopAdditionalSlides: 3,
   speed: 500,
   grabCursor: true,
   spaceBetween: 5,
@@ -26,71 +24,51 @@ new Swiper('.features-slider', {
 
   on: {
     init(swiper) {
-      updateActiveSlideContent(swiper)
-    },
-
-    slideChangeTransitionStart() {
-      isTransitioning = true
+      updateContent(swiper)
     },
 
     slideChangeTransitionEnd(swiper) {
-      updateActiveSlideContent(swiper)
-      isTransitioning = false
-    },
-    
-    slideChange(swiper) {
-      setTimeout(() => {
-        if (!isTransitioning) {
-          updateActiveSlideContent(swiper)
-        }
-      }, 50)
+      updateContent(swiper)
     }
   }
 })
 
-function updateActiveSlideContent(swiper) {
-  const realIndex = swiper.realIndex
-  
+function updateContent(swiper) {
+  const activeSlide = swiper.slides[swiper.activeIndex]
 
-  let activeSlide = null
-  
-  for (let i = 0; i < swiper.slides.length; i++) {
-    const slide = swiper.slides[i]
-    if (!slide.classList.contains('swiper-slide-duplicate') && 
-        slide.swiperSlideIndex === realIndex) {
-      activeSlide = slide
-      break
-    }
+  if (!activeSlide) return
+
+  const title = activeSlide.dataset.title || ''
+
+  setTitle(title)
+
+  stopAllVideos()
+
+  const video = activeSlide.querySelector('video')
+
+  if (video) {
+    video.currentTime = 0
+
+    video.play().catch(() => {})
   }
-  
-  if (!activeSlide && swiper.slides[realIndex]) {
-    activeSlide = swiper.slides[realIndex]
-  }
-  
-  if (activeSlide && activeSlide.dataset.title && activeSlide.dataset.title !== currentTitle) {
-    currentTitle = activeSlide.dataset.title
-    changeContent(titleElement, currentTitle)
-  }
-  
+}
+
+function stopAllVideos() {
   document.querySelectorAll('.slide-card video').forEach(video => {
     video.pause()
     video.currentTime = 0
   })
-  
-  if (activeSlide) {
-    const video = activeSlide.querySelector('video')
-    if (video) {
-      video.play().catch(e => console.log('Video play error:', e))
-    }
-  }
 }
 
-function changeContent(element, newText) {
-  if (element.textContent === newText) return
-  
-  element.style.opacity = '0'
+function setTitle(text) {
+  if (titleElement.dataset.current === text) return
+
+  titleElement.dataset.current = text
+
+  titleElement.classList.add('is-hidden')
+
   setTimeout(() => {
-    element.textContent = newText
-    element.style.opacity = '1'
+    titleElement.textContent = text
+    titleElement.classList.remove('is-hidden')
   }, 150)
 }
