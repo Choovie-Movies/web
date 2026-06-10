@@ -164,7 +164,7 @@ jobs:
             | 📜 **JavaScript (ESLint)** | ${{ needs.validate-js.result == 'success' && '✅' || '❌' }} |
             | 🚀 **Deploy to Pages** | ${{ needs.deploy-preview.result == 'success' && '✅' || (needs.deploy-preview.result == 'skipped' && '⏭️' || '❌') }} |
             
-            ${{ needs.deploy-preview.result == 'success' && format('**🔗 Превью:** {0}', steps.vars.outputs.preview_url) || '' }}
+            ${{ needs.deploy-preview.result == 'success' && format('**🔗 Preview:** {0}', steps.vars.outputs.preview_url) || '' }}
             
             ---
             
