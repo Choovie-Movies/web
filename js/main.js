@@ -5,17 +5,6 @@ const titleElement = document.querySelector('.features__title')
 let currentTitle = ''
 let isTransitioning = false
 
-function getActiveRealSlide(swiper) {
-  const realIndex = swiper.realIndex
-  const allSlides = Array.from(swiper.slides)
-  
-  const originalSlide = allSlides.find(slide => 
-    slide.dataset.id && !slide.classList.contains('swiper-slide-duplicate')
-  )
-  
-  return swiper.slides[realIndex]
-}
-
 new Swiper('.features-slider', {
   centeredSlides: true,
   slidesPerView: 1.3,
