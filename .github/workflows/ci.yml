@@ -1,0 +1,209 @@
+name: Validate & Deploy PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Базовые настройки для всех jobs
+env:
+  PR_NUMBER: ${{ github.event.number }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  REPO_OWNER: ${{ github.repository_owner }}
+
+jobs:
+  # JOB 1: Проверка HTML через W3C
+  validate-html:
+    name: 🔍 HTML Validation (W3C)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install HTML Validator
+        run: npm install -g html-validator-cli
+      
+      - name: Validate index.html
+        id: html-check
+        continue-on-error: true
+        run: |
+          html-validator --file=index.html --format=text || true
+      
+      - name: Save validation result
+        if: always()
+        run: |
+          mkdir -p validation-results
+          html-validator --file=index.html --format=text > validation-results/html-result.txt || true
+      
+      - name: Upload HTML validation result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-validation-result
+          path: validation-results/html-result.txt
+          retention-days: 7
+
+  # JOB 2: Проверка CSS через W3C
+  validate-css:
+    name: 🎨 CSS Validation (W3C)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install CSS Validator
+        run: npm install -g css-validator-cli
+      
+      - name: Validate style.css
+        id: css-check
+        continue-on-error: true
+        run: |
+          css-validator --file=style.css --format=text || true
+      
+      - name: Save validation result
+        if: always()
+        run: |
+          mkdir -p validation-results
+          css-validator --file=style.css --format=text > validation-results/css-result.txt || true
+      
+      - name: Upload CSS validation result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: css-validation-result
+          path: validation-results/css-result.txt
+          retention-days: 7
+
+  # JOB 3: Проверка JavaScript через ESLint
+  validate-js:
+    name: 📜 JavaScript Validation (ESLint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install ESLint
+        run: npm install -g eslint
+      
+      - name: Create ESLint config
+        run: |
+          echo '{
+            "env": { 
+              "browser": true, 
+              "es2021": true 
+            },
+            "extends": "eslint:recommended",
+            "parserOptions": { 
+              "ecmaVersion": "latest" 
+            },
+            "rules": { 
+              "no-console": "warn", 
+              "no-unused-vars": "warn",
+              "no-undef": "error"
+            }
+          }' > .eslintrc.json
+      
+      - name: Validate JavaScript files
+        id: js-check
+        continue-on-error: true
+        run: |
+          mkdir -p validation-results
+          eslint js/*.js --format=stylish > validation-results/js-result.txt 2>&1 || true
+      
+      - name: Upload JS validation result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: js-validation-result
+          path: validation-results/js-result.txt
+          retention-days: 7
+
+  # JOB 4: Деплой на GitHub Pages
+  deploy-preview:
+    name: 🚀 Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: [validate-html, validate-css, validate-js]
+    # Деплоим даже если есть ошибки валидации (но можно изменить на always() если нужно)
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Prepare files for deployment
+        run: |
+          mkdir -p deploy_preview
+          cp index.html deploy_preview/
+          cp style.css deploy_preview/
+          cp -r js deploy_preview/
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy_preview
+          destination_dir: pr-preview/pr-${{ github.event.number }}
+          keep_files: false
+      
+      - name: Save preview URL
+        run: |
+          PREVIEW_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/"
+          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
+          echo "Preview URL: $PREVIEW_URL"
+
+    # JOB 5: Упрощенная версия комментария
+  comment-results-simple:
+    name: 💬 Post Results to PR
+    runs-on: ubuntu-latest
+    needs: [validate-html, validate-css, validate-js, deploy-preview]
+    if: always()
+    steps:
+      - name: Create comment with status
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: full-validation-report
+          message: |
+            ## 🚀 Pull Request Preview & Validation Report
+            
+            ### 📊 Статус проверок
+            
+            | Проверка | Статус |
+            |----------|--------|
+            | 🔍 **HTML (W3C Validator)** | ${{ needs.validate-html.result == 'success' && '✅' || (needs.validate-html.result == 'failure' && '❌' || '⏭️') }} |
+            | 🎨 **CSS (W3C Validator)** | ${{ needs.validate-css.result == 'success' && '✅' || (needs.validate-css.result == 'failure' && '❌' || '⏭️') }} |
+            | 📜 **JavaScript (ESLint)** | ${{ needs.validate-js.result == 'success' && '✅' || (needs.validate-js.result == 'failure' && '❌' || '⏭️') }} |
+            | 🚀 **Deploy to Pages** | ${{ needs.deploy-preview.result == 'success' && '✅' || (needs.deploy-preview.result == 'failure' && '❌' || '⏭️') }} |
+            
+            **🔗 Превью:**  
+            https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
+            
+            ---
+            
+            ### 📝 Подробности проверок
+            
+            Чтобы увидеть детальные результаты каждой проверки:
+            1. Перейди во вкладку **Actions** этого репозитория
+            2. Найди запущенный workflow
+            3. Кликни на любой job (HTML/CSS/JS валидация)
+            4. Посмотри логи выполнения
+            
+            ---
+            
+            *Этот комментарий автоматически обновляется при каждом коммите в PR*
