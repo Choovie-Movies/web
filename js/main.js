@@ -2,7 +2,7 @@
 
 const titleElement = document.querySelector('.features__title')
 
-const swiper = new Swiper('.features-slider', {
+new Swiper('.features-slider', {
   centeredSlides: true,
   slidesPerView: 1.3,
   loop: true,
