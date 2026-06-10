@@ -81,62 +81,47 @@
         }
 
         .features {
-            overflow: hidden;
-            padding: 30px 0;
-            }
+    overflow: hidden;
+    padding: 30px 0;
+}
 
-            .features__title {
-                text-align: center;
+.features__title {
+    text-align: center;
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 600;
+    min-height: 30px;
+    margin-bottom: 20px;
+    transition: opacity .2s ease;
+}
 
-                font-weight: 600;
-                line-height: 1.2;
+.features-slider {
+    overflow: visible;
+}
 
-                max-width: 700px;
-                margin: 0;
-                margin-bottom: 20px;
-                margin-left: 10px;
-                margin-right: 10px;
-            }
+.swiper-slide {
+    transition: transform .35s ease;
+}
 
-            .features-slider {
-            overflow: visible;
-            }
+.slide-card {
+    aspect-ratio: .93;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #232632;
+    transform: scale(.9);
+    transition: transform .35s ease;
+}
 
-            .swiper-slide {
-            transition:
-                transform .35s ease,
-                opacity .35s ease;
+.swiper-slide-active .slide-card {
+    transform: scale(1);
+}
 
-            }
-
-            
-
-            
-
-            .slide-card {
-                aspect-ratio: 0.93;
-
-                transform: scale(0.9);
-
-                transition: .3s transform;
-
-            border-radius: 15px;
-
-            overflow: hidden;
-
-            background: #232632;
-            }
-
-            .swiper-slide-active .slide-card {
-                transform: scale(1);
-            }
-
-            .slide-card img,
-            .slide-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            }
+.slide-card img,
+.slide-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
             .intro--title {
                 font-size: 2.25rem;
@@ -277,29 +262,54 @@
             </h2>
 
             <div class="swiper features-slider">
-  <div class="swiper-wrapper">
-    <!-- Оригинальные слайды (важно: у каждого уникальный ID) -->
-    <div class="swiper-slide" data-id="1" data-title="Индивидуальный подбор фильма">
-      <div class="slide-card">
-        <img src="/img/slide-1.webp" alt="Подбор фильма" fetchpriority="high">
-      </div>
-    </div>
+            <div class="swiper-wrapper">
 
-    <div class="swiper-slide" data-id="2" data-title="Подбор по настроению">
-      <div class="slide-card">
-        <video muted loop playsinline preload="none" poster="/img/poster.webp">
-          <source src="/video/demo.webm" type="video/webm">
-        </video>
-      </div>
-    </div>
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-1.webp" alt="">
+                    </div>
+                </div>
 
-    <div class="swiper-slide" data-id="3" data-title="Рекомендации по оценкам">
-      <div class="slide-card">
-        <img src="/img/slide-3.webp" alt="Рекомендации" loading="lazy">
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <video muted loop playsinline preload="metadata">
+                            <source src="/video/demo.webm" type="video/webm">
+                        </video>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-3.webp" alt="">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-4.webp" alt="">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-5.webp" alt="">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-6.webp" alt="">
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="slide-card">
+                        <img src="/img/slide-7.webp" alt="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
             <p class="features--hint">Нажми чтобы попробовать</p>
 
