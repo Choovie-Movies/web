@@ -1,35 +1,17 @@
 # .pre-commit-config.yaml
 repos:
-  # 1. Общие проверки: конец файла, пробелы, yaml и т.д.
+  # Базовые проверки (работают 100%)
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: trailing-whitespace        # убирает лишние пробелы в конце строк
-      - id: end-of-file-fixer          # добавляет пустую строку в конце файла
-      - id: check-yaml                 # проверяет yaml файлы (твой конфиг)
-      - id: check-added-large-files    # не даёт закоммитить большие файлы (>500KB)
-        args: ['--maxkb=500']
-      - id: check-merge-conflict       # проверяет, нет ли незакрытых конфликтов слияния
-      - id: check-case-conflict        # проверяет конфликты регистров в именах файлов
+      - id: trailing-whitespace        # убирает лишние пробелы
+      - id: end-of-file-fixer          # добавляет пустую строку в конце
+      - id: check-yaml                 # проверяет yaml файлы
+      - id: check-added-large-files    # проверяет размер файлов
+      - id: check-merge-conflict       # проверяет конфликты слияния
+      - id: check-case-conflict        # проверяет конфликты регистров
 
-  # 2. Проверка HTML (только синтаксис)
-  - repo: https://github.com/html-validate/html-validate-pre-commit
-    rev: v4.0.0
-    hooks:
-      - id: html-validate
-        files: \.html$
-        args: ['--root', '.']
-
-  # 3. Проверка CSS (стиль и ошибки)
-  - repo: https://github.com/adamchainz/blacken-docs
-    rev: 1.16.0
-    hooks:
-      - id: blacken-docs
-        additional_dependencies: [black==23.12.1]
-        files: \.css$
-        args: ['--skip-errors']
-
-  # 4. Проверка JavaScript (ESLint)
+  # Проверка JavaScript (ESLint) - работает
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v9.0.0-alpha.2
     hooks:
@@ -37,13 +19,23 @@ repos:
         files: \.js$
         additional_dependencies:
           - eslint@8.57.0
-          - eslint-config-google
         args: ['--fix', '--max-warnings=0']
 
-  # 5. Проверка форматирования (prettier)
+  # Форматирование prettier (опционально)
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.1.0
     hooks:
       - id: prettier
         files: \.(html|css|js|json|yaml)$
         args: ['--write']
+
+  # Проверка HTML через другой валидатор (работающий)
+  - repo: local
+    hooks:
+      - id: htmlhint
+        name: HTMLHint
+        entry: npx htmlhint
+        language: node
+        files: \.html$
+        additional_dependencies:
+          - htmlhint
