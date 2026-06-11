@@ -4,12 +4,12 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: trailing-whitespace        # убирает лишние пробелы
-      - id: end-of-file-fixer          # добавляет пустую строку в конце
-      - id: check-yaml                 # проверяет yaml файлы
-      - id: check-added-large-files    # проверяет размер файлов
-      - id: check-merge-conflict       # проверяет конфликты слияния
-      - id: check-case-conflict        # проверяет конфликты регистров
+      - id: trailing-whitespace # убирает лишние пробелы
+      - id: end-of-file-fixer # добавляет пустую строку в конце
+      - id: check-yaml # проверяет yaml файлы
+      - id: check-added-large-files # проверяет размер файлов
+      - id: check-merge-conflict # проверяет конфликты слияния
+      - id: check-case-conflict # проверяет конфликты регистров
 
   # Проверка JavaScript (ESLint) - работает
   - repo: https://github.com/pre-commit/mirrors-eslint
@@ -19,7 +19,7 @@ repos:
         files: \.js$
         additional_dependencies:
           - eslint@8.57.0
-        args: ['--fix', '--max-warnings=0']
+        args: ["--fix", "--max-warnings=0"]
 
   # Форматирование prettier (опционально)
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -27,7 +27,7 @@ repos:
     hooks:
       - id: prettier
         files: \.(html|css|js|json|yaml)$
-        args: ['--write']
+        args: ["--write"]
 
   # Проверка HTML через другой валидатор (работающий)
   - repo: local
