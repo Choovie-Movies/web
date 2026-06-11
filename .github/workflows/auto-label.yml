@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Check changed files and apply labels
         uses: actions/github-script@v7
         with:
@@ -30,53 +30,53 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number,
             });
-            
+
             const changedPaths = files.map(f => f.filename);
-            
+
             // Определяем лейблы на основе изменённых файлов
             const labelsToAdd = [];
             let hasFrontend = false;
             let hasBackend = false;
-            
+
             // Проверяем фронтенд (HTML, CSS, JS, изображения)
             for (const path of changedPaths) {
-              if (path.match(/\.(html|css|js)$/i) || 
+              if (path.match(/\.(html|css|js)$/i) ||
                   path.match(/^(js|css|fonts|img|assets)\//) ||
-                  path === 'index.html' || 
+                  path === 'index.html' ||
                   path === 'style.css') {
                 hasFrontend = true;
               }
               // Проверяем бэкенд (Go файлы)
               if (path.match(/\.(go)$/i) ||
                   path.match(/^(cmd|internal|pkg|api)\//) ||
-                  path === 'go.mod' || 
+                  path === 'go.mod' ||
                   path === 'go.sum') {
                 hasBackend = true;
               }
             }
-            
+
             if (hasFrontend) labelsToAdd.push('frontend');
             if (hasBackend) labelsToAdd.push('backend');
-            
+
             // Если ни один лейбл не определён, ставим 'frontend' по умолчанию
             if (labelsToAdd.length === 0) {
               labelsToAdd.push('frontend');
             }
-            
+
             // Получаем текущие лейблы PR
             const { data: currentPR } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
             });
-            
+
             const currentLabels = currentPR.labels.map(l => l.name);
-            
+
             // Удаляем старые лейблы frontend/backend
             const labelsToRemove = currentLabels.filter(
               l => (l === 'frontend' || l === 'backend') && !labelsToAdd.includes(l)
             );
-            
+
             for (const label of labelsToRemove) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -85,7 +85,7 @@ jobs:
                 name: label,
               });
             }
-            
+
             // Добавляем новые лейблы
             const labelsToAddNew = labelsToAdd.filter(l => !currentLabels.includes(l));
             if (labelsToAddNew.length > 0) {
@@ -96,7 +96,7 @@ jobs:
                 labels: labelsToAddNew,
               });
             }
-            
+
             console.log(`✅ Labels added: ${labelsToAdd.join(', ')}`);
 
   label-need-to-fix:
@@ -110,15 +110,15 @@ jobs:
             const eventName = context.eventName;
             const review = context.payload.review;
             const prNumber = context.payload.pull_request?.number || context.issue?.number;
-            
+
             if (!prNumber) {
               console.log('No PR number found');
               return;
             }
-            
+
             let shouldAddFixLabel = false;
             let shouldRemoveFixLabel = false;
-            
+
             // При событии review
             if (eventName === 'pull_request_review') {
               // Если ревьюер запросил изменения
@@ -134,7 +134,7 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: prNumber,
                 });
-                
+
                 const hasChangesRequested = reviews.some(r => r.state === 'CHANGES_REQUESTED');
                 if (!hasChangesRequested) {
                   shouldRemoveFixLabel = true;
@@ -142,14 +142,14 @@ jobs:
                 }
               }
             }
-            
+
             // При новом коммите или открытии PR - убираем need to fix
-            if (eventName === 'pull_request' && 
+            if (eventName === 'pull_request' &&
                 (context.payload.action === 'synchronize' || context.payload.action === 'opened')) {
               shouldRemoveFixLabel = true;
               console.log('New commits or PR opened - removing need to fix label');
             }
-            
+
             // Применяем изменения
             if (shouldAddFixLabel) {
               await github.rest.issues.addLabels({
@@ -159,7 +159,7 @@ jobs:
                 labels: ['need to fix'],
               });
             }
-            
+
             if (shouldRemoveFixLabel) {
               try {
                 await github.rest.issues.removeLabel({
@@ -186,15 +186,15 @@ jobs:
           script: |
             const eventName = context.eventName;
             const prNumber = context.payload.pull_request?.number || context.issue?.number;
-            
+
             if (!prNumber) {
               console.log('No PR number found');
               return;
             }
-            
+
             let shouldAddCheckLabel = false;
             let shouldRemoveCheckLabel = false;
-            
+
             // При новом коммите или открытии PR добавляем лейбл
             if (eventName === 'pull_request') {
               const action = context.payload.action;
@@ -203,13 +203,13 @@ jobs:
                 console.log('New commits or PR opened - adding need to check label');
               }
             }
-            
+
             // При получении ревью (любого) убираем лейбл need to check
             if (eventName === 'pull_request_review') {
               shouldRemoveCheckLabel = true;
               console.log('Review received - removing need to check label');
             }
-            
+
             // Применяем изменения
             if (shouldAddCheckLabel) {
               await github.rest.issues.addLabels({
@@ -219,7 +219,7 @@ jobs:
                 labels: ['need to check'],
               });
             }
-            
+
             if (shouldRemoveCheckLabel) {
               try {
                 await github.rest.issues.removeLabel({
