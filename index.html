@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choovie - Выбери свой вечер</title>
+
+    <style>
+      body,
+      html {
+        background: #0f111a;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      .header__logo a {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: 700;
+        text-decoration: none;
+        line-height: 0.9;
+        text-transform: lowercase;
+        letter-spacing: 0.1rem;
+        gap: 0.15rem;
+      }
+
+      .header__logo a span {
+        display: block;
+        height: 24px;
+      }
+
+      .header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: calc(100% - 40px);
+        margin: 0 auto;
+      }
+
+      .header--sidebar {
+        position: fixed;
+        left: 100vw;
+      }
+
+      .header--burger span {
+        width: 30px;
+        height: 4px;
+        border-radius: 5px;
+        background: white;
+        display: block;
+        position: relative;
+      }
+
+      .header--burger span:after {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 30px;
+        height: 4px;
+        border-radius: 5px;
+        background: white;
+        content: "";
+      }
+
+      .header--burger span:before {
+        position: absolute;
+        top: -10px;
+        left: 0;
+        width: 30px;
+        height: 4px;
+        border-radius: 5px;
+        background: white;
+        content: "";
+      }
+
+      .features {
+        overflow: hidden;
+        padding: 30px 0;
+      }
+
+      .features__title {
+        text-align: center;
+        color: #fff;
+        font-size: 1.125rem;
+        font-weight: 600;
+        min-height: 30px;
+        margin-bottom: 12px;
+        transition: opacity 0.2s ease;
+      }
+
+      .features-slider {
+        overflow: visible;
+      }
+
+      .swiper-slide {
+        transition: transform 0.35s ease;
+      }
+
+      .slide-card {
+        aspect-ratio: 0.93;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #232632;
+        transform: scale(0.9);
+        transition: transform 0.35s ease;
+      }
+
+      .swiper-slide-active .slide-card {
+        transform: scale(1);
+      }
+
+      .slide-card img,
+      .slide-card video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .intro--title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: white;
+        text-align: center;
+      }
+
+      .intro--title span {
+        color: #3366ff;
+      }
+
+      .section--intro {
+        padding-top: 90px;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 60px;
+        background: #0f111a;
+      }
+
+      .intro--subtitle {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+
+        white-space: normal;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      }
+
+      .features__title {
+        text-align: center;
+        font-weight: 600;
+        color: white;
+        font-size: 1.125rem;
+        height: 30px;
+
+        transition: 0.15s opacity;
+      }
+
+      .features .container {
+        max-width: 100vw;
+      }
+
+      p.features--hint {
+        text-align: center;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0;
+        margin-top: 7px;
+      }
+    </style>
+
+    <link
+      rel="preload"
+      href="style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="style.css" /></noscript>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header__inner">
+          <div class="header__logo">
+            <a href="/">
+              Ch
+              <span>
+                <svg
+                  width="52"
+                  height="26"
+                  viewBox="0 0 52 26"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M29.3611 10H22.6389C21.4576 10 20.5 10.8547 20.5 11.9091V14.0909C20.5 15.1453 21.4576 16 22.6389 16H29.3611C30.5424 16 31.5 15.1453 31.5 14.0909V11.9091C31.5 10.8547 30.5424 10 29.3611 10Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M13.5 0H8.5C7.39543 0 6.5 1.19391 6.5 2.66667V3.33333C6.5 4.80609 7.39543 6 8.5 6H13.5C14.6046 6 15.5 4.80609 15.5 3.33333V2.66667C15.5 1.19391 14.6046 0 13.5 0Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M43.5 0H38.5C37.3954 0 36.5 1.19391 36.5 2.66667V3.33333C36.5 4.80609 37.3954 6 38.5 6H43.5C44.6046 6 45.5 4.80609 45.5 3.33333V2.66667C45.5 1.19391 44.6046 0 43.5 0Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M11.1078 24.0196C16.4141 24.0196 20.7157 19.718 20.7157 14.4117C20.7157 9.10546 16.4141 4.80388 11.1078 4.80388C5.80158 4.80388 1.5 9.10546 1.5 14.4117C1.5 19.718 5.80158 24.0196 11.1078 24.0196Z"
+                    stroke="white"
+                    stroke-width="3"
+                  />
+                  <path
+                    d="M40.892 24.0196C46.1983 24.0196 50.4999 19.718 50.4999 14.4117C50.4999 9.10546 46.1983 4.80388 40.892 4.80388C35.5858 4.80388 31.2842 9.10546 31.2842 14.4117C31.2842 19.718 35.5858 24.0196 40.892 24.0196Z"
+                    stroke="white"
+                    stroke-width="3"
+                  />
+                  <path
+                    d="M11.1078 18.0147C13.0977 18.0147 14.7108 16.4016 14.7108 14.4117C14.7108 12.4219 13.0977 10.8088 11.1078 10.8088C9.11797 10.8088 7.50488 12.4219 7.50488 14.4117C7.50488 16.4016 9.11797 18.0147 11.1078 18.0147Z"
+                    fill="#3366FF"
+                  />
+                  <path
+                    d="M40.892 18.0147C42.8819 18.0147 44.4949 16.4016 44.4949 14.4117C44.4949 12.4219 42.8819 10.8088 40.892 10.8088C38.9022 10.8088 37.2891 12.4219 37.2891 14.4117C37.2891 16.4016 38.9022 18.0147 40.892 18.0147Z"
+                    fill="#3366FF"
+                  />
+                </svg>
+              </span>
+              vie
+            </a>
+          </div>
+
+          <div class="header--burger">
+            <span></span>
+          </div>
+
+          <div class="header--sidebar">
+            <nav class="nav">
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+              <a href="#" class="header--link">Каталог</a>
+            </nav>
+
+            <div class="header__right">
+              <form class="input__search" method="get" action="/search">
+                <input type="search" name="searchQuery" id="searchQuery" />
+
+                <button type="submit">
+                  <svg
+                    width="20"
+                    height="21"
+                    viewBox="0 0 20 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.9248 1C11.7462 1 14.8496 4.1091 14.8496 7.95117C14.8496 11.7932 11.7462 14.9023 7.9248 14.9023C4.10347 14.9023 1.00006 11.7932 1 7.95117C1 4.10913 4.10343 1.00006 7.9248 1Z"
+                      stroke="#979797"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <line
+                      x1="1"
+                      y1="-1"
+                      x2="8.18493"
+                      y2="-1"
+                      transform="matrix(0.705941 0.708271 -0.705941 0.708271 12.4536 13.6304)"
+                      stroke="#979797"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              </form>
+              <a href="/enter" class="enter--btn">Войти</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section--intro">
+        <div class="container">
+          <h1 class="intro--title">Ch<span>oo</span>vie - выбери свой вечер</h1>
+          <p class="intro--subtitle">
+            Большой каталог фильмов, умный <br />подбор под настроение и рулетка
+            — <br />для тех, кому сложно решить.
+          </p>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <h2 class="features__title">Индивидуальный подбор фильма</h2>
+
+          <div class="swiper features-slider">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-1.webp" alt="" />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <video muted loop playsinline preload="metadata">
+                    <source src="/video/demo.webm" type="video/webm" />
+                  </video>
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-3.webp" alt="" />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-4.webp" alt="" />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-5.webp" alt="" />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-6.webp" alt="" />
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="slide-card">
+                  <img src="/img/slide-7.webp" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="features--hint">Нажми чтобы попробовать</p>
+        </div>
+      </section>
+    </main>
+    <script src="js/main.js"></script>
+  </body>
+</html>

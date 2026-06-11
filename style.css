@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "Vela";
+  src: url(fonts/VelaSans-Medium.ttf);
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vela";
+  src: url(fonts/VelaSans-Regular.ttf);
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vela";
+  src: url(fonts/VelaSans-SemiBold.ttf);
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vela";
+  src: url(fonts/VelaSans-Bold.ttf);
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+.header__logo a {
+  font-family: "Vela";
+  font-weight: 700;
+}
+
+.intro--title,
+.intro--subtitle,
+.features__title,
+.features--hint {
+  font-family: "Vela";
+}
