@@ -38,6 +38,8 @@
 .intro--title,
 .intro--subtitle,
 .features__title,
-.features--hint {
+.features--hint,
+.section--weekfeed,
+a.btn--sta {
   font-family: "Vela";
 }
