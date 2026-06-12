@@ -1,0 +1,23 @@
+name: Deploy to Server V3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via rsync
+        uses: D3rHase/rsync-deploy-action@latest
+        with:
+          HOST: ${{ secrets.REMOTE_HOST }}
+          USER: ${{ secrets.REMOTE_USER }}
+          PRIVATE_SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REPOSITORY_PATH: './'
+          SERVER_PATH: '/var/www/choovie_pro_usr/data/www/choovie.pro/'
