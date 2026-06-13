@@ -238,7 +238,7 @@
         object-fit: fill;
       }
 
-      a.btn--sta {
+      .btn--sta {
         background: #3366ff;
         font-size: 1rem;
         color: white;
@@ -248,6 +248,28 @@
         display: block;
         padding: 9px;
         text-align: center;
+        border: 0;
+        outline: 0;
+      }
+
+      button.btn--sta {
+        min-width: 184px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        background: #1E2235;
+
+      }
+
+      button.btn--sta.active {
+        background: #3366FF;
+      }
+
+      .buttons--line {
+        display: flex;
+        gap: 11px;
+        padding-bottom: 5px;
+        margin-top: 20px;
+        overflow-x: scroll;
       }
     </style>
 
@@ -590,6 +612,179 @@
             </div>
 
             <a href="/movies" class="btn--sta">Открыть каталог</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section--weekfeed">
+        <div class="container">
+          <div class="weekfeed--inner">
+            <h2 class="section--title">Чего хочется сегодня?</h2>
+            <p class="section--subtitle">Мини-описание (будет переписано)</p>
+
+            <div class="buttons--line">
+              <button class="btn--sta active">
+                Настроение
+              </button>
+              <button class="btn--sta">
+                Настроение
+              </button>
+              <button class="btn--sta">
+                Настроение
+              </button>
+              <button class="btn--sta">
+                Настроение
+              </button>
+              <button class="btn--sta">
+                Настроение
+              </button>
+            </div>
+
+            <div class="weekfeed--line">
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+
+              <article class="movie--card">
+                <a href="/movie/name" class="movie--link">
+                  <div class="movie--poster">
+                    <picture>
+                      <source srcset="img/demo_poster.avif" type="image/avif" />
+                      <source srcset="img/demo_poster.webp" type="image/webp" />
+                      <source srcset="/img/demo_poster.jpg" type="image/jpeg" />
+                      <img
+                        src="img/demo_poster.png"
+                        width="150"
+                        height="200"
+                        title="Постер"
+                        alt="Постер фильма"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                      />
+                    </picture>
+                  </div>
+                  <h3>Название фильма</h3>
+                  <p class="movie--card">2019, фантастика</p>
+                </a>
+              </article>
+            </div>
           </div>
         </div>
       </section>
