@@ -19,7 +19,6 @@
   src: url(fonts/VelaSans-SemiBold.ttf);
   font-weight: 600;
   font-display: swap;
-  font-style: normal;
 }
 
 @font-face {
@@ -27,7 +26,6 @@
   src: url(fonts/VelaSans-Bold.ttf);
   font-weight: 700;
   font-display: swap;
-  font-style: normal;
 }
 
 .header__logo a {
@@ -40,6 +38,35 @@
 .features__title,
 .features--hint,
 .section--weekfeed,
-a.btn--sta {
+.btn--sta {
   font-family: "Vela";
+}
+
+.buttons--line::-webkit-scrollbar {
+  display: none;
+}
+
+.shapes {
+  position: relative;
+  z-index: 2;
+}
+
+.shapes:after,
+.shapes:before {
+  width: 156px;
+  height: 241px;
+  background: linear-gradient(180deg, #ff0000 0%, #ff9500 100%);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  content: "";
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(250px);
+}
+
+.shapes:before {
+  left: 100%;
+  opacity: 70%;
 }
