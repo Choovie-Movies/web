@@ -41,3 +41,7 @@
 .btn--sta {
   font-family: "Vela";
 }
+
+.buttons--line::-webkit-scrollbar {
+  display: none;
+}
